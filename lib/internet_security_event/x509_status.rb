@@ -2,6 +2,7 @@
 
 require 'action_view'
 require 'action_view/helpers'
+require 'active_support/core_ext/numeric/time'
 
 module InternetSecurityEvent
   class X509Status
@@ -59,7 +60,7 @@ module InternetSecurityEvent
     end
 
     def expired_or_expire_soon?
-      now + 3600 * 24 * 2 > certificate.not_after
+      now + renewal_duration / 3 > certificate.not_after
     end
 
     def expired?
@@ -67,7 +68,15 @@ module InternetSecurityEvent
     end
 
     def expire_soonish?
-      now + 3600 * 24 * 14 > certificate.not_after
+      now + 2 * renewal_duration / 3 > certificate.not_after
+    end
+
+    def renewal_duration
+      [validity_duration / 3, 90.days].min
+    end
+
+    def validity_duration
+      certificate.not_after - certificate.not_before
     end
 
     def now
