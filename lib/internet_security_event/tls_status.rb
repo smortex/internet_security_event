@@ -37,16 +37,28 @@ module InternetSecurityEvent
     end
 
     def hostname_match_subject?
-      common_name == hostname
+      name_match_patern(hostname, common_name)
     end
 
     def hostname_match_subject_alternative_name?
       return false unless certificate
 
       san = certificate.extensions.select { |ext| ext.oid == 'subjectAltName' }.first
-      return san.value.split(', ').map { |name| name.sub(/\ADNS:/, '') }.include?(hostname) if san
+
+      if san
+        alt_names = san.value.split(', ').map { |name| name.sub(/\ADNS:/, '') }
+        return true if alt_names.any? { |alt_name| name_match_patern(hostname, alt_name) }
+      end
 
       false
+    end
+
+    def name_match_patern(hostname, pattern)
+      re = Regexp.new('\A' + pattern.split('*').map do |st|
+        Regexp.escape(st)
+      end.join('[^.]*') + '\z')
+
+      re.match(hostname)
     end
 
     def common_name
