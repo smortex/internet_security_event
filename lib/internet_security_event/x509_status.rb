@@ -32,6 +32,10 @@ module InternetSecurityEvent
       }
     end
 
+    def renewal_duration
+      [validity_duration / 3, 90.days].min
+    end
+
     private
 
     def description
@@ -69,10 +73,6 @@ module InternetSecurityEvent
 
     def expire_soonish?
       now + 2 * renewal_duration / 3 > certificate.not_after
-    end
-
-    def renewal_duration
-      [validity_duration / 3, 90.days].min
     end
 
     def validity_duration
