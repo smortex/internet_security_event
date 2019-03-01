@@ -86,25 +86,21 @@ module InternetSecurityEvent
 
       case distance_in_minutes
       when 0                then 'less than 1 minute'
-      when 1...45           then pluralize_string('%d %s', distance_in_minutes, 'minute')
-      when 45...1440        then pluralize_string('about %d %s', (distance_in_minutes.to_f / 60.0).round, 'hour')
+      when 1...45           then pluralize_string('%d minute', distance_in_minutes)
+      when 45...1440        then pluralize_string('about %d hour', (distance_in_minutes.to_f / 60.0).round)
         # 24 hours up to 30 days
-      when 1440...43_200    then pluralize_string('%d %s', (distance_in_minutes.to_f / 1440.0).round, 'day')
+      when 1440...43_200    then pluralize_string('%d day', (distance_in_minutes.to_f / 1440.0).round)
         # 30 days up to 60 days
-      when 43_200...86_400  then pluralize_string('about %d %s', (distance_in_minutes.to_f / 43_200.0).round, 'month')
+      when 43_200...86_400  then pluralize_string('about %d month', (distance_in_minutes.to_f / 43_200.0).round)
         # 60 days up to 365 days
-      when 86_400...525_600 then pluralize_string('%d %s', (distance_in_minutes.to_f / 43_200.0).round, 'month')
+      when 86_400...525_600 then pluralize_string('%d month', (distance_in_minutes.to_f / 43_200.0).round)
       else
-        pluralize_string('about %d %s', (distance_in_minutes.to_f / 525_600.0).round, 'year')
+        pluralize_string('about %d year', (distance_in_minutes.to_f / 525_600.0).round)
       end
     end
 
-    def pluralize_string(string, number, word)
-      format(string, number, pluralize_word(number, word))
-    end
-
-    def pluralize_word(number, word)
-      word + (number.abs == 1 ? '' : 's')
+    def pluralize_string(string, number)
+      format(string, number) + (number == 1 ? '' : 's')
     end
   end
 end
