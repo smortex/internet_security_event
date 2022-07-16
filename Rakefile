@@ -11,7 +11,7 @@ GitHubChangelogGenerator::RakeTask.new :changelog do |config|
   config.project = 'internet_security_event'
   config.since_tag = 'v1.2.1'
   require 'internet_security_event/version'
-  config.future_release = InternetSecurityEvent::VERSION
+  config.future_release = "v#{InternetSecurityEvent::VERSION}"
 end
 
 task default: :spec
