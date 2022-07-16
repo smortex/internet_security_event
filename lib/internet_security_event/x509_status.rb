@@ -45,7 +45,7 @@ module InternetSecurityEvent
       if not_valid_yet? || expired_or_expire_soon?
         'critical'
       elsif expire_soonish?
-        'warn'
+        'warning'
       else
         'ok'
       end

@@ -38,7 +38,7 @@ certificate = OpenSSL::X509::Certificate.new(...)
 
 event = InternetSecurityEvent::X509Status.build(certificate)
 
-event[:state]       #=> 'ok', 'warn', 'critical'
+event[:state]       #=> 'ok', 'warning', 'critical'
 event[:description] #=> Human readable state
 event[:metric]      #=> an optional Float
 ```

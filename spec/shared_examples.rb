@@ -46,7 +46,7 @@ RSpec.shared_examples 'InternetSecurityEvent::X509Status#to_e' do
     let(:not_before) { Time.now - 75.days }
     let(:not_after)  { Time.now + 15.days }
 
-    it { is_expected.to include(state: 'warn') }
+    it { is_expected.to include(state: 'warning') }
     it { is_expected.to include(description: 'certificate will expire in 15 days') }
   end
 
