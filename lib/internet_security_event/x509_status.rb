@@ -15,7 +15,7 @@ module InternetSecurityEvent
       obj.to_e
     end
 
-    def to_e
+    def to_e # rubocop:disable Metrics/AbcSize
       {
         state:       state,
         description: description,
@@ -80,7 +80,7 @@ module InternetSecurityEvent
     end
 
     # Stolen from ActionView, to avoid pulling a lot of dependencies
-    def distance_of_time_in_words_to_now(to_time)
+    def distance_of_time_in_words_to_now(to_time) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       distance_in_seconds = (to_time - now).round.abs
       distance_in_minutes = distance_in_seconds / 60
 

@@ -2,7 +2,7 @@
 
 RSpec.describe Resolv::DNS::Resource::IN::TLSA do
   subject do
-    Resolv::DNS::Resource::IN::TLSA.new(raw_record_data)
+    described_class.new(raw_record_data)
   end
 
   context 'with the TLSA record "3 0 1 015ad9a7cb61431733b483cd7e155f38f7a776fa0ef7f0ed94da3ca8d86c210a"' do

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe InternetSecurityEvent::TLSAStatus do
-  let(:tlsa_status) { InternetSecurityEvent::TLSAStatus.new(record, certificate) }
+  let(:tlsa_status) { described_class.new(record, certificate) }
 
   let(:record) do
     Resolv::DNS::Resource::IN::TLSA.new("\x03\x00\x01\x01\x5a\xd9\xa7\xcb\x61\x43\x17\x33\xb4\x83\xcd\x7e\x15\x5f\x38" \
@@ -10,14 +10,14 @@ RSpec.describe InternetSecurityEvent::TLSAStatus do
 
   let(:certificate) { OpenSSL::X509::Certificate.new(File.read('spec/mx.blogreen.org.crt')) }
 
-  context '#to_e' do
+  describe '#to_e' do
     subject { tlsa_status.to_e }
 
     it { is_expected.to include(state: 'ok') }
   end
 
-  context '#certificate_association_data' do
-    it 'computes correct checksums' do
+  describe '#certificate_association_data' do
+    it 'computes correct checksums' do # rubocop:disable RSpec/ExampleLength, RSpec/MultipleExpectations
       expect(tlsa_status.certificate_association_data(0, 0)).to eq('3082066930820551a0030201020212035107c642a503567ecfdce5fdc79d1b54903' \
                                                                    '00d06092a864886f70d01010b0500304a310b300906035504061302555331163014' \
                                                                    '060355040a130d4c6574277320456e6372797074312330210603550403131a4c657' \

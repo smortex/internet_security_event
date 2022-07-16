@@ -1,6 +1,6 @@
 # InternetSecurityEvent
 
-[![Build Status](https://travis-ci.com/smortex/internet_security_event.svg?branch=master)](https://travis-ci.com/smortex/internet_security_event)
+[![Build Status](https://github.com/smortex/internet_security_event/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/smortex/internet_security_event/actions/workflows/ci.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/bc64fb4f1c1088c15b8c/maintainability)](https://codeclimate.com/github/smortex/internet_security_event/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/bc64fb4f1c1088c15b8c/test_coverage)](https://codeclimate.com/github/smortex/internet_security_event/test_coverage)
 
@@ -81,4 +81,4 @@ License](https://opensource.org/licenses/MIT).
 
 Everyone interacting in the InternetSecurityEvent project’s codebases, issue
 trackers, chat rooms and mailing lists is expected to follow the [code of
-conduct](https://github.com/smortex/internet_security_event/blob/master/CODE_OF_CONDUCT.md).
+conduct](https://github.com/smortex/internet_security_event/blob/main/CODE_OF_CONDUCT.md).

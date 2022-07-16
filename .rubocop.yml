@@ -1,0 +1,25 @@
+AllCops:
+  AllowSymlinksInCacheRootDirectory: true
+
+require:
+  - rubocop-rake
+  - rubocop-rspec
+
+Layout/HashAlignment:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
+
+Metrics/LineLength:
+  Max: 160
+
+Style/Documentation:
+  Enabled: false
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma

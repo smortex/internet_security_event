@@ -3,12 +3,12 @@
 require 'active_support/core_ext/integer/time'
 require 'openssl'
 
-RSpec.shared_examples 'with a certificate valid for 2 years' do
+RSpec.shared_context 'with a certificate valid for 2 years' do
   let(:not_before) { Time.now - 2.days }
   let(:not_after)  { Time.now + 2.years - 2.days }
 end
 
-RSpec.shared_examples 'with a certificate valid for 30 days' do
+RSpec.shared_context 'with a certificate valid for 30 days' do
   let(:not_before) { Time.now - 2.days }
   let(:not_after)  { Time.now + 30.days - 2.days }
 end
@@ -22,7 +22,7 @@ RSpec.shared_examples 'certificate does not match hostname' do
   it { is_expected.to include(description: 'certificate subject does not match hostname') }
 end
 
-RSpec.shared_examples 'with an X.509 certificate' do
+RSpec.shared_context 'with an X.509 certificate' do
   let(:certificate_hostname) { 'example.com' }
   let(:certificate) do
     cert = OpenSSL::X509::Certificate.new
