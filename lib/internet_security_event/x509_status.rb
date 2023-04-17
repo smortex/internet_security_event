@@ -4,27 +4,20 @@ require 'active_support/core_ext/numeric/time'
 
 module InternetSecurityEvent
   class X509Status
-    attr_reader :certificate, :hostname
-
-    def initialize(certificate)
-      @certificate = certificate
-    end
-
-    def self.build(certificate)
-      obj = new(certificate)
+    def self.build(object)
+      obj = if object.is_a?(OpenSSL::X509::Certificate)
+              X509CertificateStatus.new(object)
+            elsif object.is_a?(OpenSSL::X509::CRL)
+              X509CertificateRevocationListStatus.new(object)
+            end
       obj.to_e
     end
 
-    def to_e # rubocop:disable Metrics/AbcSize
+    def to_e
       {
         state:       state,
         description: description,
         metric:      metric,
-        subject:     certificate.subject.to_s,
-        issuer:      certificate.issuer.to_s,
-        serial:      certificate.serial.to_i,
-        not_before:  certificate.not_before.to_s,
-        not_after:   certificate.not_after.to_s,
       }
     end
 
@@ -34,11 +27,15 @@ module InternetSecurityEvent
 
     private
 
-    def description
-      return "certificate will become valid in #{distance_of_time_in_words_to_now(certificate.not_before)}" if not_valid_yet?
-      return "certificate has expired #{distance_of_time_in_words_to_now(certificate.not_after)} ago" if expired?
+    # Define these method in sub-classes
+    # def not_before; end
+    # def not_after; end
 
-      "certificate will expire in #{distance_of_time_in_words_to_now(certificate.not_after)}"
+    def description(name)
+      return "#{name} will become valid in #{distance_of_time_in_words_to_now(not_before)}" if not_valid_yet?
+      return "#{name} has expired #{distance_of_time_in_words_to_now(not_after)} ago" if expired?
+
+      "#{name} will expire in #{distance_of_time_in_words_to_now(not_after)}"
     end
 
     def state
@@ -52,27 +49,27 @@ module InternetSecurityEvent
     end
 
     def metric
-      certificate.not_after - now
+      not_after - now
     end
 
     def not_valid_yet?
-      now < certificate.not_before
+      now < not_before
     end
 
     def expired_or_expire_soon?
-      now + renewal_duration / 3 > certificate.not_after
+      now + renewal_duration / 3 > not_after
     end
 
     def expired?
-      now > certificate.not_after
+      now > not_after
     end
 
     def expire_soonish?
-      now + 2 * renewal_duration / 3 > certificate.not_after
+      now + 2 * renewal_duration / 3 > not_after
     end
 
     def validity_duration
-      certificate.not_after - certificate.not_before
+      not_after - not_before
     end
 
     def now

@@ -3,12 +3,12 @@
 require 'active_support/core_ext/integer/time'
 require 'openssl'
 
-RSpec.shared_context 'with a certificate valid for 2 years' do
+RSpec.shared_context 'with a 2 years duration' do
   let(:not_before) { Time.now - 2.days }
   let(:not_after)  { Time.now + 2.years - 2.days }
 end
 
-RSpec.shared_context 'with a certificate valid for 30 days' do
+RSpec.shared_context 'with a 30 days duration' do
   let(:not_before) { Time.now - 2.days }
   let(:not_after)  { Time.now + 30.days - 2.days }
 end
@@ -36,10 +36,22 @@ RSpec.shared_context 'with an X.509 certificate' do
   let(:not_after)  { Time.now.utc + 30.days }
 end
 
+RSpec.shared_context 'with an X.509 certificate revocation list' do
+  let(:crl) do
+    crl = OpenSSL::X509::CRL.new
+    crl.last_update = not_before
+    crl.next_update = not_after
+    crl
+  end
+
+  let(:not_before) { Time.now.utc - 1.day }
+  let(:not_after)  { Time.now.utc + 30.days }
+end
+
 RSpec.shared_examples 'InternetSecurityEvent::X509Status#to_e' do
   context 'with a valid certificate' do
     it { is_expected.to include(state: 'ok') }
-    it { is_expected.to include(description: 'certificate will expire in about 1 month') }
+    it { is_expected.to include(description: /\A(certificate|crl) will expire in about 1 month\z/) }
   end
 
   context 'with a certificate about to expire' do
@@ -47,7 +59,7 @@ RSpec.shared_examples 'InternetSecurityEvent::X509Status#to_e' do
     let(:not_after)  { Time.now + 15.days }
 
     it { is_expected.to include(state: 'warning') }
-    it { is_expected.to include(description: 'certificate will expire in 15 days') }
+    it { is_expected.to include(description: /\A(certificate|crl) will expire in 15 days\z/) }
   end
 
   context 'with a certificate expiring really soon' do
@@ -55,7 +67,7 @@ RSpec.shared_examples 'InternetSecurityEvent::X509Status#to_e' do
     let(:not_after)  { Time.now + 5.days }
 
     it { is_expected.to include(state: 'critical') }
-    it { is_expected.to include(description: 'certificate will expire in 5 days') }
+    it { is_expected.to include(description: /\A(certificate|crl) will expire in 5 days\z/) }
   end
 
   context 'with a not valid yet certificate' do
@@ -63,7 +75,7 @@ RSpec.shared_examples 'InternetSecurityEvent::X509Status#to_e' do
     let(:not_after)  { Time.now + 92.days }
 
     it { is_expected.to include(state: 'critical') }
-    it { is_expected.to include(description: 'certificate will become valid in 2 days') }
+    it { is_expected.to include(description: /\A(certificate|crl) will become valid in 2 days\z/) }
   end
 
   context 'with an expired certificate' do
@@ -71,6 +83,6 @@ RSpec.shared_examples 'InternetSecurityEvent::X509Status#to_e' do
     let(:not_after)  { Time.now - 2.days }
 
     it { is_expected.to include(state: 'critical') }
-    it { is_expected.to include(description: 'certificate has expired 2 days ago') }
+    it { is_expected.to include(description: /\A(certificate|crl) has expired 2 days ago\z/) }
   end
 end

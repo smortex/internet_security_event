@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
-require 'internet_security_event/x509_status'
+require 'internet_security_event/x509_certificate_status'
 
 module InternetSecurityEvent
-  class TLSStatus < X509Status
+  class TLSStatus < X509CertificateStatus
+    attr_reader :hostname
+
     def initialize(hostname, certificate)
       @hostname = hostname
       super(certificate)
