@@ -1,7 +1,7 @@
 AllCops:
   AllowSymlinksInCacheRootDirectory: true
 
-require:
+plugins:
   - rubocop-rake
   - rubocop-rspec
 
@@ -9,7 +9,7 @@ Layout/HashAlignment:
   EnforcedColonStyle: table
   EnforcedHashRocketStyle: table
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 160
 
 Style/Documentation:
