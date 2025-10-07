@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v4.0.0](https://github.com/smortex/internet_security_event/tree/v4.0.0) (2025-10-07)
+
+[Full Changelog](https://github.com/smortex/internet_security_event/compare/v3.0.0...v4.0.0)
+
+**Breaking changes:**
+
+- Switch to ActiveSupport 7.x [\#6](https://github.com/smortex/internet_security_event/pull/6) ([smortex](https://github.com/smortex))
+
+**Implemented enhancements:**
+
+- Run CI an Ruby 3.3 and 3.4 [\#7](https://github.com/smortex/internet_security_event/pull/7) ([smortex](https://github.com/smortex))
+
 ## [v3.0.0](https://github.com/smortex/internet_security_event/tree/v3.0.0) (2023-04-17)
 
 [Full Changelog](https://github.com/smortex/internet_security_event/compare/v2.0.0...v3.0.0)
