@@ -4,8 +4,7 @@ RSpec.describe InternetSecurityEvent::TLSAStatus do
   let(:tlsa_status) { described_class.new(record, certificate) }
 
   let(:record) do
-    Resolv::DNS::Resource::IN::TLSA.new("\x03\x00\x01\x01\x5a\xd9\xa7\xcb\x61\x43\x17\x33\xb4\x83\xcd\x7e\x15\x5f\x38" \
-                                        "\xf7\xa7\x76\xfa\x0e\xf7\xf0\xed\x94\xda\x3c\xa8\xd8\x6c\x21\x0a")
+    Resolv::DNS::Resource::IN::TLSA.new(3, 0, 1, '015ad9a7cb61431733b483cd7e155f38f7a776fa0ef7f0ed94da3ca8d86c210a')
   end
 
   let(:certificate) { OpenSSL::X509::Certificate.new(File.read('spec/mx.blogreen.org.crt')) }

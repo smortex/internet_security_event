@@ -12,6 +12,10 @@ Layout/HashAlignment:
 Layout/LineLength:
   Max: 160
 
+Naming/ConstantName:
+  Exclude:
+    - lib/resolv/dns/resource/in/tlsa.rb
+
 Style/Documentation:
   Enabled: false
 
