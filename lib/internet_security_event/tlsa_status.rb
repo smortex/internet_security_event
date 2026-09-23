@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
+require 'internet_security_event/status'
+
 require 'resolv'
 
 module InternetSecurityEvent
-  class TLSAStatus
+  class TLSAStatus < Status
     attr_reader :record, :certificate
 
     def initialize(record, certificate)
+      super()
+
       @record = record
       @certificate = certificate
 
@@ -16,13 +20,6 @@ module InternetSecurityEvent
     def self.build(record, certificate)
       obj = new(record, certificate)
       obj.to_e
-    end
-
-    def to_e
-      {
-        state:       state,
-        description: description,
-      }
     end
 
     def certificate_association_data(selector, matching_type)

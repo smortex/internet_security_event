@@ -16,14 +16,6 @@ module InternetSecurityEvent
       super('crl')
     end
 
-    def to_e
-      super.merge({
-                    issuer:      crl.issuer.to_s,
-                    last_update: crl.last_update.to_s,
-                    next_update: crl.next_update.to_s,
-                  })
-    end
-
     private
 
     def not_before

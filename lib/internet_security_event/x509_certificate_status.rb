@@ -16,16 +16,6 @@ module InternetSecurityEvent
       super('certificate')
     end
 
-    def to_e
-      super.merge({
-                    subject:    certificate.subject.to_s,
-                    issuer:     certificate.issuer.to_s,
-                    serial:     certificate.serial.to_i,
-                    not_before: certificate.not_before.to_s,
-                    not_after:  certificate.not_after.to_s,
-                  })
-    end
-
     private
 
     def not_before

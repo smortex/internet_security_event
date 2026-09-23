@@ -2,8 +2,10 @@
 
 require 'active_support/core_ext/numeric/time'
 
+require 'internet_security_event/status'
+
 module InternetSecurityEvent
-  class X509Status
+  class X509Status < Status
     def self.build(object)
       obj = if object.is_a?(OpenSSL::X509::Certificate)
               X509CertificateStatus.new(object)
@@ -11,14 +13,6 @@ module InternetSecurityEvent
               X509CertificateRevocationListStatus.new(object)
             end
       obj.to_e
-    end
-
-    def to_e
-      {
-        state:       state,
-        description: description,
-        metric:      metric,
-      }
     end
 
     def renewal_duration
@@ -32,10 +26,13 @@ module InternetSecurityEvent
     # def not_after; end
 
     def description(name)
-      return "#{name} will become valid in #{distance_of_time_in_words_to_now(not_before)}" if not_valid_yet?
-      return "#{name} has expired #{distance_of_time_in_words_to_now(not_after)} ago" if expired?
-
-      "#{name} will expire in #{distance_of_time_in_words_to_now(not_after)}"
+      if not_valid_yet?
+        "#{name} will become valid in #{distance_of_time_in_words_to_now(not_before)}"
+      elsif expired?
+        "#{name} has expired #{distance_of_time_in_words_to_now(not_after)} ago"
+      else
+        "#{name} will expire in #{distance_of_time_in_words_to_now(not_after)}"
+      end
     end
 
     def state
