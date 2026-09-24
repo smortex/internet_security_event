@@ -30,7 +30,7 @@ module InternetSecurityEvent
     end
 
     def certificate_match_tlsa_record?
-      certificate_association_data(record.selector, record.matching_type) == record.certificate_association_data
+      certificate_association_data(record.selector, record.matching_type).casecmp?(record.certificate_association_data)
     end
 
     private
